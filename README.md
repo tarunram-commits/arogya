@@ -1,4 +1,5 @@
 # 🏥 Arogya-Vahini (आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ)
+
 > **"Bharat's Health, Our Priority."**  
 > *Seamless Healthcare Bridge From Rural Care to Specialist Excellence.*
 
@@ -7,43 +8,40 @@
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-3178C6.svg)](https://www.typescriptlang.org/)
 [![Supabase](https://img.shields.io/badge/Supabase-Realtime%20%26%20Auth-3ECF8E.svg)](https://supabase.com/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-38B2AC.svg)](https://tailwindcss.com/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ---
 
 ## 🌟 Overview
 
-**Arogya-Vahini** is an AI-assisted rural-to-specialist digital referral network designed to eliminate paper-slip losses, repeated diagnostic tests, and delayed emergency care across primary healthcare centres in India. 
+**Arogya-Vahini** is an AI-assisted rural referral network and digital health vault designed to eliminate paper-slip losses, repeated diagnostic tests, and delayed emergency transfers across primary healthcare centres in Bharat.
 
-It connects **Primary Health Centres (PHCs)** in rural villages directly to **District Specialty Hospitals**, enabling instant scannable QR handoffs, AI-driven clinical risk triage, multilingual handoff reports, and a portable, encrypted **ABDM-aligned Health Vault**.
+It seamlessly bridges **Primary Health Centres (PHCs)** in rural villages directly to **District Specialty Hospitals**, enabling instant scannable QR handoffs, AI-driven clinical risk triage, 4-language handoff reports (**English, Hindi, Kannada, Marathi**), and an encrypted **ABDM-aligned Health Vault**.
 
 ---
 
-## ✨ Key Features
+## ✨ Key Features & Architecture
 
-- **🔐 Supabase Cloud Authentication & Realtime DB**:
-  - Email/Password Doctor Authentication via Supabase Auth.
-  - Direct DB fallback registration to prevent cloud rate-limit blocks.
-  - Real-time bidirectional data synchronization using PostgreSQL WebSocket channels (`postgres_changes`).
+### 1. 🌐 Enterprise Landing Page & Role Portal
+- **Modern Dark-Mode SaaS UI**: Deep navy backdrop (`#030712`), ambient glowing radial grids, glassmorphism cards, and Indian-inspired saffron/emerald/blue accents.
+- **5 Enterprise Sections**: Hero section with Indian Health Vault badge, 4 Key Feature Cards (*AI Risk Triage*, *Instant QR Referral*, *ABDM Health Vault*, *Specialist Network*), 6-Step Care Continuum Workflow, Statistics, and Trust Badges.
+- **2-Role Medical Portal**: Clean card selection for **PHC Doctors** (primary care) and **Specialist Doctors** (district hub).
+- **Save Login Info (Remember Me)**: Auto-fills stored credentials from `localStorage` on page load for 1-click authentication.
 
-- **🤖 AI Risk Triage & Multilingual Summarizer**:
-  - Automatically calculates patient risk scores (*High, Medium, Low*) based on vital signs, symptoms, and medical history.
-  - Generates instant clinical handoff summaries in **English, Hindi (हिंदी), Kannada (ಕನ್ನಡ), and Marathi (मराठी)**.
+### 2. 📹 Auto-Start Live Camera QR Scanner
+- **Live Device Webcam Feed**: Opens the device's camera automatically (`navigator.mediaDevices.getUserMedia`) as soon as the doctor navigates to the **Scan QR** page.
+- **Click-to-Scan Viewfinder**: Clicking anywhere inside the camera scanner frame triggers an animated laser scan sweep, verifies the referral token (`AV-2026-1042KQZ`), and opens the patient's Health Vault in **< 1 second**.
+- **1-Click Waiting Referral Slips**: Allows doctors to click any waiting patient referral card to auto-verify and open their record.
 
-- **📁 Medical Report Vault (PDF & Pictures)**:
-  - Drag-and-drop file upload modal for **PDF documents** (*ECG reports, Lab Panels, Discharge Summaries*) and **Image Scans** (*X-Rays, Prescriptions, Medical Pictures*).
-  - Synchronizes medical documents in real time across the patient's Health Vault.
+### 3. 🌐 Multilingual (i18n) Engine
+- **Supported Languages**: **English (EN)**, **Hindi (हिंदी - HI)**, **Kannada (ಕನ್ನಡ - KN)**, and **Marathi (मराठी - MR)**.
+- **National Health Portal Typography**: Prominent AIIMS-style top-middle header displaying Devanagari and Kannada scripts (`आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ`).
+- **Live Language Switcher**: Real-time header dropdown instantly translates dashboard banners, CTAs, speech bubbles, and stat cards.
 
-- **📱 Scannable QR Token Handoff**:
-  - Generates unique QR tokens for each referral slip (`AV-2026-101...`).
-  - Specialists can scan the QR code using any webcam/mobile camera to instantly pull the patient's full medical history in **< 1 second**.
-
-- **🖥️ Dual Role Console Dashboards**:
-  - **PHC Doctor Console**: Patient registry, digital referral slip creation, vital signs recording, and report vault views.
-  - **Specialist Doctor Console**: QR desk scanner, AI risk-sorted priority queue, treatment note recorder, and case completion tools.
-
-- **🛡️ Delete Patient Record & Profile Settings**:
-  - Delete patient modal with double-confirmation safety for permanent removal of records from local state and Supabase DB.
-  - Profile settings to edit doctor name, designation, primary facility, and medical council registration ID.
+### 4. 🤖 AI Risk Triage & ABDM Health Vault
+- **Clinical Risk Assessment**: Automatically calculates patient risk scores (*High, Medium, Low*) based on vital signs, symptoms, and medical history.
+- **Encrypted Medical Vault**: Drag-and-drop file uploader for PDF lab reports, X-rays, ECGs, and prescriptions synchronized across Supabase DB.
+- **Real-Time Priority Queue**: Sorted by AI risk score (*Emergency, Urgent, High Risk*) placed right below dashboard stats for rapid triage.
 
 ---
 
@@ -51,18 +49,18 @@ It connects **Primary Health Centres (PHCs)** in rural villages directly to **Di
 
 | Layer | Technology |
 | :--- | :--- |
-| **Frontend UI** | React 18, Vite, TypeScript |
-| **Styling** | Vanilla CSS, Tailwind CSS, Framer Motion |
+| **Frontend UI** | React 18, Vite 5, TypeScript 5 |
+| **Styling & Motion** | Vanilla CSS, Tailwind CSS, Framer Motion |
 | **Backend & DB** | Supabase Cloud PostgreSQL & Realtime WebSockets |
-| **Authentication** | Supabase Auth (`supabase.auth`) + Local Session Storage |
-| **Icons & Charts** | Lucide React, Recharts |
-| **Date & Utilities** | `date-fns`, `sonner` toast notifications |
+| **Authentication** | Supabase Auth (`supabase.auth`) + Automatic Fallback Provisioning |
+| **Icons & Notifications** | Lucide React, Sonner Toast Notifications |
+| **Camera & Web APIs** | HTML5 `navigator.mediaDevices.getUserMedia` Video Stream |
 
 ---
 
 ## 🗄️ Database Schema
 
-The database consists of 4 main PostgreSQL tables managed via Supabase:
+The platform connects to Supabase Cloud PostgreSQL with 4 core tables:
 
 ```sql
 -- 1. Patients Table
@@ -101,7 +99,7 @@ CREATE TABLE public.referrals (
     pdf_language VARCHAR(10) DEFAULT 'en'
 );
 
--- 3. Reports Table
+-- 3. Reports Table (Health Vault Files)
 CREATE TABLE public.reports (
     id VARCHAR(50) PRIMARY KEY,
     patient_id VARCHAR(50) REFERENCES public.patients(id) ON DELETE CASCADE,
@@ -130,11 +128,11 @@ CREATE TABLE public.doctor_users (
 
 ## 🚀 Getting Started Locally
 
-### Prerequisites
+### 1. Prerequisites
 - Node.js (v18 or higher)
 - npm or yarn
 
-### Installation Steps
+### 2. Installation Steps
 
 1. **Clone the Repository**:
    ```bash
@@ -168,6 +166,6 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 ---
 
-<p center>
-<b>Arogya-Vahini</b> — <i>Bridging Rural Care to Specialist Excellence across Bharat.</i> 🇮🇳
+<p align="center">
+  <b>Arogya-Vahini (आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ)</b> — <i>Bridging Rural Care to Specialist Excellence across Bharat 🇮🇳</i>
 </p>
