@@ -25,7 +25,7 @@ import { Logo } from '../components/Brand';
 import type { Role } from '../types';
 import { toast } from 'sonner';
 
-type ExtendedRole = 'phc' | 'specialist' | 'patient' | 'admin';
+type ExtendedRole = 'phc' | 'specialist';
 
 interface RoleOption {
   role: ExtendedRole;
@@ -45,7 +45,7 @@ const ROLE_OPTIONS: RoleOption[] = [
     icon: <StethoscopeIcon className="h-5 w-5 text-brand-400" />,
     accent: 'border-brand-500 bg-brand-500/10 text-brand-400',
     description: 'Register patients, create digital referrals, generate AI summaries, and manage healthcare records.',
-    defaultEmail: 'phc.doctor@arogyavahini.org'
+    defaultEmail: 'doctor@arogyavahini.org'
   },
   {
     role: 'specialist',
@@ -54,30 +54,12 @@ const ROLE_OPTIONS: RoleOption[] = [
     icon: <HospitalIcon className="h-5 w-5 text-emerald-400" />,
     accent: 'border-emerald-500 bg-emerald-500/10 text-emerald-400',
     description: 'Review referral cases, access patient history, and provide specialist consultation.',
-    defaultEmail: 'specialist.doctor@arogyavahini.org'
-  },
-  {
-    role: 'patient',
-    title: 'Patient Member',
-    badge: 'ABDM Health Vault',
-    icon: <UserIcon className="h-5 w-5 text-saffron-400" />,
-    accent: 'border-amber-500 bg-amber-500/10 text-amber-400',
-    description: 'View health records, track referrals, receive AI health guidance, and manage appointments.',
-    defaultEmail: 'patient.member@arogyavahini.org'
-  },
-  {
-    role: 'admin',
-    title: 'Hospital Admin',
-    badge: 'Network Monitor',
-    icon: <ShieldCheckIcon className="h-5 w-5 text-indigo-400" />,
-    accent: 'border-indigo-500 bg-indigo-500/10 text-indigo-400',
-    description: 'Monitor healthcare workflows and manage connected healthcare networks.',
-    defaultEmail: 'admin@arogyavahini.org'
+    defaultEmail: 'specialist@arogyavahini.org'
   }
 ];
 
 export function LandingPage() {
-  const { login, loginWithSupabase, signUpWithSupabase } = useApp();
+  const { loginWithSupabase, signUpWithSupabase } = useApp();
   const navigate = useNavigate();
 
   const [authTab, setAuthTab] = useState<'signin' | 'signup'>('signin');
@@ -101,22 +83,6 @@ export function LandingPage() {
       return;
     }
     setLoading(true);
-
-    if (selectedRole === 'patient') {
-      toast.success('Welcome Patient Member! Opening ABDM Health Vault Demo.');
-      login('phc');
-      navigate('/phc/search');
-      setLoading(false);
-      return;
-    }
-
-    if (selectedRole === 'admin') {
-      toast.success('Welcome Hospital Admin! Opening Network Workflow Dashboard.');
-      login('specialist');
-      navigate('/specialist');
-      setLoading(false);
-      return;
-    }
 
     const actualRole: Role = selectedRole === 'specialist' ? 'specialist' : 'phc';
 
@@ -471,8 +437,8 @@ export function LandingPage() {
             </p>
           </div>
 
-          {/* Role Selection Cards Grid (4 Cards) */}
-          <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {/* Role Selection Cards Grid (Doctor Consoles) */}
+          <div className="mt-12 grid gap-4 sm:grid-cols-2">
             {ROLE_OPTIONS.map((opt) => {
               const isSelected = selectedRole === opt.role;
               return (
