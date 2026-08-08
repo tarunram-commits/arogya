@@ -20,47 +20,120 @@ It seamlessly bridges **Primary Health Centres (PHCs)** in rural villages direct
 
 ---
 
-## ✨ Key Features & Architecture
+## 🏗️ System Architecture
 
-### 1. 🌐 Enterprise Landing Page & Role Portal
-- **Modern Dark-Mode SaaS UI**: Deep navy backdrop (`#030712`), ambient glowing radial grids, glassmorphism cards, and Indian-inspired saffron/emerald/blue accents.
-- **5 Enterprise Sections**: Hero section with Indian Health Vault badge, 4 Key Feature Cards (*AI Risk Triage*, *Instant QR Referral*, *ABDM Health Vault*, *Specialist Network*), 6-Step Care Continuum Workflow, Statistics, and Trust Badges.
-- **2-Role Medical Portal**: Clean card selection for **PHC Doctors** (primary care) and **Specialist Doctors** (district hub).
-- **Save Login Info (Remember Me)**: Auto-fills stored credentials from `localStorage` on page load for 1-click authentication.
+```mermaid
+flowchart TB
+    subgraph ClientLayer ["Client Presentation Layer (React 18 + Vite + Tailwind)"]
+        LandingPage["🌐 Enterprise Dark Mode Landing Page"]
+        PHCConsole["🩺 PHC Doctor Console\n(Patient Search, Vitals, Referral Slip)"]
+        SpecialistConsole["🏥 Specialist Doctor Console\n(Priority Queue, QR Scanner, Vault)"]
+    end
 
-### 2. 📹 Auto-Start Live Camera QR Scanner
-- **Live Device Webcam Feed**: Opens the device's camera automatically (`navigator.mediaDevices.getUserMedia`) as soon as the doctor navigates to the **Scan QR** page.
-- **Click-to-Scan Viewfinder**: Clicking anywhere inside the camera scanner frame triggers an animated laser scan sweep, verifies the referral token (`AV-2026-1042KQZ`), and opens the patient's Health Vault in **< 1 second**.
-- **1-Click Waiting Referral Slips**: Allows doctors to click any waiting patient referral card to auto-verify and open their record.
+    subgraph CoreServices ["Application Core Services & State Management"]
+        AppContext["⚙️ AppContext (Global State & Local Storage)"]
+        i18nEngine["🌐 Multilingual i18n Engine (EN, HI, KN, MR)"]
+        AITriage["🤖 AI Clinical Risk & Triage Engine"]
+        CameraAPI["📹 Hardware Camera API (getUserMedia)"]
+    end
 
-### 3. 🌐 Multilingual (i18n) Engine
-- **Supported Languages**: **English (EN)**, **Hindi (हिंदी - HI)**, **Kannada (ಕನ್ನಡ - KN)**, and **Marathi (मराठी - MR)**.
-- **National Health Portal Typography**: Prominent AIIMS-style top-middle header displaying Devanagari and Kannada scripts (`आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ`).
-- **Live Language Switcher**: Real-time header dropdown instantly translates dashboard banners, CTAs, speech bubbles, and stat cards.
+    subgraph BackendLayer ["Backend Infrastructure (Supabase Cloud)"]
+        SupaAuth["🔑 Supabase Auth & Session Manager"]
+        RealtimeWS["⚡ Realtime WebSockets (postgres_changes)"]
+        DB[(🗄️ PostgreSQL Database)]
+    end
 
-### 4. 🤖 AI Risk Triage & ABDM Health Vault
-- **Clinical Risk Assessment**: Automatically calculates patient risk scores (*High, Medium, Low*) based on vital signs, symptoms, and medical history.
-- **Encrypted Medical Vault**: Drag-and-drop file uploader for PDF lab reports, X-rays, ECGs, and prescriptions synchronized across Supabase DB.
-- **Real-Time Priority Queue**: Sorted by AI risk score (*Emergency, Urgent, High Risk*) placed right below dashboard stats for rapid triage.
+    subgraph DataTables ["Database Collections"]
+        PatientsTable["patients"]
+        ReferralsTable["referrals"]
+        ReportsTable["reports"]
+        DoctorsTable["doctor_users"]
+    end
+
+    LandingPage --> AppContext
+    PHCConsole --> AppContext
+    SpecialistConsole --> AppContext
+
+    AppContext --> i18nEngine
+    AppContext --> AITriage
+    SpecialistConsole --> CameraAPI
+
+    AppContext <--> SupaAuth
+    AppContext <--> RealtimeWS
+    RealtimeWS <--> DB
+
+    DB --- PatientsTable
+    DB --- ReferralsTable
+    DB --- ReportsTable
+    DB --- DoctorsTable
+```
 
 ---
 
-## 🛠️ Technology Stack
+## 🔄 Referral Continuum Data Flow
 
-| Layer | Technology |
-| :--- | :--- |
-| **Frontend UI** | React 18, Vite 5, TypeScript 5 |
-| **Styling & Motion** | Vanilla CSS, Tailwind CSS, Framer Motion |
-| **Backend & DB** | Supabase Cloud PostgreSQL & Realtime WebSockets |
-| **Authentication** | Supabase Auth (`supabase.auth`) + Automatic Fallback Provisioning |
-| **Icons & Notifications** | Lucide React, Sonner Toast Notifications |
-| **Camera & Web APIs** | HTML5 `navigator.mediaDevices.getUserMedia` Video Stream |
+```mermaid
+sequenceDiagram
+    autonumber
+    actor Patient as Rural Patient
+    actor PHC as PHC Doctor
+    participant AI as AI Risk Engine
+    participant System as Arogya-Vahini System
+    participant DB as Supabase DB
+    actor Specialist as Specialist Doctor
+
+    Patient->>PHC: Visits Primary Health Centre
+    PHC->>System: Logs Vitals & Symptoms
+    System->>AI: Evaluate Risk Level & Calculate Triage Score
+    AI-->>System: Risk Level (Emergency/High/Medium), Clinical Summary
+    PHC->>System: Generate Digital Referral Slip
+    System->>DB: Save Referral Record & Token (AV-2026-XXXX)
+    System-->>Patient: Issues Printed Slip / Smartphone QR Code
+    Patient->>Specialist: Carries QR Slip to District Hospital
+    Specialist->>System: Opens Live Camera QR Scanner
+    System->>Camera: Activate Webcam Feed
+    Camera-->>System: Captures & Decodes QR Token
+    System->>DB: Fetch Encrypted Health Vault & Vitals
+    DB-->>Specialist: Displays Unlocked Patient Vault & Medical History
+    Specialist->>System: Prescribes Treatment & Logs Handoff Notes
+    System->>DB: Update Referral Status to "Completed"
+```
+
+---
+
+## 🧩 Architectural Modules Breakdown
+
+### 1. 🌐 Client Presentation Layer
+- **Framework**: React 18, Vite 5, TypeScript 5.
+- **Routing**: Single Page Application (SPA) architecture with React Router v6.
+- **Styling & Motion**: Tailwind CSS, CSS Custom Tokens, Framer Motion for micro-animations, Lucide React icons.
+
+### 2. 🤖 AI Clinical Risk & Triage Engine
+- **Vitals Evaluation**: Evaluates Systolic/Diastolic BP, Heart Rate, SpO2, Temperature, and Blood Glucose.
+- **Multilingual Summary Generator**: Synthesizes clinical handoff summaries in **English, Hindi (हिंदी), Kannada (ಕನ್ನಡ), and Marathi (मराठी)**.
+
+### 3. 📹 Hardware Camera Scanner Module
+- **WebRTC / MediaDevices API**: Integrates `navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })` for hardware webcam streaming.
+- **Viewfinder Framing**: Animated laser target sweep with instant token verification upon detection or manual input.
+
+### 4. 🗄️ Backend Infrastructure & Supabase Database
+- **Database**: Supabase Cloud PostgreSQL with 4 relational tables (`patients`, `referrals`, `reports`, `doctor_users`).
+- **Realtime Synchronization**: `postgres_changes` WebSocket channels push live inserts, updates, and referral completions to all connected doctor dashboards.
+- **Authentication & Resilience**: Supabase Auth with automatic fallback provisioning for seamless demo and local authentication.
+
+---
+
+## ✨ Key Features
+
+- **🌐 Enterprise Landing Page**: 5-section dark mode portal before login with role selector and CTAs.
+- **📹 Auto-Start Camera QR Scanner**: Opens camera automatically on page load to scan printed referral QR codes in **< 1 second**.
+- **🌐 Multilingual i18n Support**: Full page translation in **EN, HI, KN, MR** with prominent AIIMS-style Devanagari & Kannada top header box.
+- **🔐 ABDM Health Vault**: Upload and store PDF lab reports, X-rays, and ECG scans attached to encrypted referral tokens.
+- **💾 Save Login Info (Remember Me)**: Auto-fills stored credentials for 1-click doctor sign in.
 
 ---
 
 ## 🗄️ Database Schema
-
-The platform connects to Supabase Cloud PostgreSQL with 4 core tables:
 
 ```sql
 -- 1. Patients Table
