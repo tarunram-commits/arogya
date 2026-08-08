@@ -87,7 +87,7 @@ export function LandingPage() {
     const actualRole: Role = selectedRole === 'specialist' ? 'specialist' : 'phc';
 
     if (authTab === 'signin') {
-      const res = await loginWithSupabase(email.trim(), password);
+      const res = await loginWithSupabase(email.trim(), password, actualRole);
       setLoading(false);
       if (res.error) {
         toast.error('Sign In Failed', { description: res.error });
