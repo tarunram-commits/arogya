@@ -28,8 +28,8 @@ export function Logo({
       <span className="leading-tight">
         <span
           className={twMerge(
-            'block font-indic font-extrabold tracking-tight',
-            isLarge ? 'text-xs sm:text-sm' : 'text-[11px]',
+            'block font-indic font-black tracking-wide',
+            isLarge ? 'text-sm sm:text-base' : 'text-xs sm:text-sm',
             tone === 'dark' ? 'text-amber-300' : 'text-[#b91c1c]'
           )}>
           आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ

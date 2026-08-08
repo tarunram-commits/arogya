@@ -281,10 +281,10 @@ export function LandingPage() {
                 </motion.div>
 
                 <div className="mt-6 text-center">
-                  <h3 className="font-indic text-sm font-extrabold text-amber-400">
+                  <h3 className="font-indic text-lg sm:text-xl font-black text-amber-400 tracking-wide leading-snug drop-shadow-md">
                     आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ
                   </h3>
-                  <p className="font-display text-lg font-black text-white mt-0.5">
+                  <p className="font-display text-xl font-black text-white mt-1">
                     Bharat Rural Healthcare Network
                   </p>
                   <p className="text-xs text-slate-400 mt-1">
