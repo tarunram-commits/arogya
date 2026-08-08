@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import {
@@ -64,10 +64,25 @@ export function LandingPage() {
 
   const [authTab, setAuthTab] = useState<'signin' | 'signup'>('signin');
   const [selectedRole, setSelectedRole] = useState<ExtendedRole>('phc');
-  const [email, setEmail] = useState('phc.doctor@arogyavahini.org');
+  const [email, setEmail] = useState('doctor@arogyavahini.org');
   const [password, setPassword] = useState('password123');
   const [name, setName] = useState('');
+  const [rememberMe, setRememberMe] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const savedCreds = localStorage.getItem('arogya_remember_creds');
+    if (savedCreds) {
+      try {
+        const { email: savedEmail, password: savedPassword, role: savedRole } = JSON.parse(savedCreds);
+        if (savedEmail) setEmail(savedEmail);
+        if (savedPassword) setPassword(savedPassword);
+        if (savedRole) setSelectedRole(savedRole as ExtendedRole);
+      } catch {
+        // ignore
+      }
+    }
+  }, []);
 
   const handleRoleSelect = (opt: RoleOption) => {
     setSelectedRole(opt.role);
@@ -85,6 +100,15 @@ export function LandingPage() {
     setLoading(true);
 
     const actualRole: Role = selectedRole === 'specialist' ? 'specialist' : 'phc';
+
+    if (rememberMe) {
+      localStorage.setItem(
+        'arogya_remember_creds',
+        JSON.stringify({ email: email.trim(), password, role: actualRole })
+      );
+    } else {
+      localStorage.removeItem('arogya_remember_creds');
+    }
 
     if (authTab === 'signin') {
       const res = await loginWithSupabase(email.trim(), password, actualRole);
@@ -556,6 +580,20 @@ export function LandingPage() {
                     className="w-full rounded-2xl border border-slate-800 bg-slate-900/90 pl-10 pr-4 py-3 text-sm text-white placeholder-slate-500 focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/20"
                   />
                 </div>
+              </div>
+
+              {/* Remember Me Checkbox */}
+              <div className="flex items-center justify-between text-xs pt-1">
+                <label className="flex items-center gap-2 text-slate-300 font-semibold cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={rememberMe}
+                    onChange={(e) => setRememberMe(e.target.checked)}
+                    className="h-4 w-4 rounded border-slate-700 bg-slate-900 text-brand-500 focus:ring-brand-500 focus:ring-offset-slate-950 accent-brand-600"
+                  />
+                  <span>Save login info (Remember Me)</span>
+                </label>
+                <span className="text-slate-400 font-medium">Session Encrypted</span>
               </div>
 
               <button
