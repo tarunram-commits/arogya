@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import {
   AlertTriangleIcon,
   CheckCircle2Icon,
@@ -84,34 +85,37 @@ export function SpecialistDashboard() {
             </div>
           </div>
 
-          {/* Right Column: Doctor & Patient Avatar Cutouts with Speech Bubbles (5 cols) */}
-          <div className="relative lg:col-span-5 flex items-center justify-center min-h-[220px]">
+          {/* Right Column: Floating Doctor & Patient Avatar Cutouts with Speech Bubbles (5 cols) */}
+          <motion.div
+            animate={{ y: [0, -12, 0] }}
+            transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+            className="relative lg:col-span-5 flex items-center justify-center min-h-[260px]">
             {/* Doctor Circle & Speech Bubble */}
             <div className="relative group">
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-brand-500 to-indigo-500 opacity-30 blur-md group-hover:opacity-60 transition-opacity" />
-              <div className="relative flex h-32 w-32 sm:h-36 sm:w-36 items-center justify-center rounded-full border-4 border-white bg-indigo-100 shadow-xl overflow-hidden">
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 opacity-40 blur-md group-hover:opacity-70 transition-opacity" />
+              <div className="relative flex h-36 w-36 sm:h-44 sm:w-44 items-center justify-center rounded-full border-4 border-white bg-emerald-100 shadow-2xl overflow-hidden">
                 <img src="/hero_doctor.png" alt="Doctor" className="h-full w-full object-cover object-top" />
               </div>
 
               {/* Doctor Speech Bubble */}
-              <div className="absolute -top-3 -right-6 sm:-right-10 z-20 max-w-[170px] rounded-2xl border border-indigo-100 bg-white/95 p-2.5 text-[11px] font-bold text-indigo-900 shadow-xl backdrop-blur-md">
+              <div className="absolute -top-4 -right-6 sm:-right-10 z-20 max-w-[185px] rounded-2xl border border-emerald-200 bg-white/95 p-3 text-xs font-extrabold text-emerald-950 shadow-xl backdrop-blur-md">
                 <span>{t('bubble.specialist_doctor', language)}</span>
               </div>
             </div>
 
             {/* Patient Circle & Speech Bubble */}
-            <div className="relative group -ml-8 mt-10">
-              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-emerald-500 to-teal-500 opacity-30 blur-md group-hover:opacity-60 transition-opacity" />
-              <div className="relative flex h-28 w-28 sm:h-32 sm:w-32 items-center justify-center rounded-full border-4 border-white bg-emerald-100 shadow-xl overflow-hidden">
+            <div className="relative group -ml-10 mt-12">
+              <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-teal-500 to-brand-500 opacity-40 blur-md group-hover:opacity-70 transition-opacity" />
+              <div className="relative flex h-32 w-32 sm:h-40 sm:w-40 items-center justify-center rounded-full border-4 border-white bg-teal-100 shadow-2xl overflow-hidden">
                 <img src="/hero_patient.png" alt="Patient" className="h-full w-full object-cover object-top" />
               </div>
 
               {/* Patient Speech Bubble */}
-              <div className="absolute -bottom-4 -left-6 sm:-left-10 z-20 max-w-[160px] rounded-2xl border border-emerald-100 bg-white/95 p-2.5 text-[11px] font-bold text-emerald-900 shadow-xl backdrop-blur-md">
+              <div className="absolute -bottom-4 -left-6 sm:-left-10 z-20 max-w-[175px] rounded-2xl border border-teal-200 bg-white/95 p-3 text-xs font-extrabold text-teal-950 shadow-xl backdrop-blur-md">
                 <span>{t('bubble.specialist_patient', language)}</span>
               </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
 
