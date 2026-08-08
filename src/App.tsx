@@ -4,7 +4,7 @@ import { Toaster } from 'sonner';
 import { AppProvider, useApp } from './contexts/AppContext';
 import { AppShell } from './components/AppShell';
 import type { Role } from './types';
-import { Login } from './pages/Login';
+import { LandingPage } from './pages/LandingPage';
 import { PhcDashboard } from './pages/phc/PhcDashboard';
 import { RegisterPatient } from './pages/phc/RegisterPatient';
 import { SearchPatient } from './pages/phc/SearchPatient';
@@ -18,18 +18,12 @@ import { SpecialistReferral } from './pages/specialist/SpecialistReferral';
 import { ProfileSettings } from './pages/ProfileSettings';
 import { HandoffReport } from './pages/HandoffReport';
 
-function Protected({ role, children }: {role: Role;children: React.ReactNode;}) {
+function Protected({ role, children }: { role: Role; children: React.ReactNode }) {
   const { user } = useApp();
   const location = useLocation();
   if (!user) return <Navigate to="/login" replace state={{ from: location.pathname }} />;
   if (user.role !== role) return <Navigate to={user.role === 'phc' ? '/phc' : '/specialist'} replace />;
   return <AppShell>{children}</AppShell>;
-}
-
-function Landing() {
-  const { user } = useApp();
-  if (!user) return <Navigate to="/login" replace />;
-  return <Navigate to={user.role === 'phc' ? '/phc' : '/specialist'} replace />;
 }
 
 export function App() {
@@ -38,8 +32,8 @@ export function App() {
       <BrowserRouter>
         <Toaster position="top-right" richColors closeButton />
         <Routes>
-          <Route path="/" element={<Landing />} />
-          <Route path="/login" element={<Login />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LandingPage />} />
 
           <Route path="/phc" element={<Protected role="phc"><PhcDashboard /></Protected>} />
           <Route path="/phc/search" element={<Protected role="phc"><SearchPatient /></Protected>} />
@@ -54,14 +48,14 @@ export function App() {
           <Route path="/specialist/queue" element={<Protected role="specialist"><ReferralQueue /></Protected>} />
           <Route
             path="/specialist/referral/:token"
-            element={<Protected role="specialist"><SpecialistReferral /></Protected>} />
+            element={<Protected role="specialist"><SpecialistReferral /></Protected>}
+          />
           <Route path="/specialist/settings" element={<Protected role="specialist"><ProfileSettings /></Protected>} />
-          
 
           <Route path="/report/:token" element={<HandoffReport />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </BrowserRouter>
-    </AppProvider>);
-
+    </AppProvider>
+  );
 }
