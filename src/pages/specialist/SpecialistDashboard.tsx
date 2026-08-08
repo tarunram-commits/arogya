@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
 import {
   AlertTriangleIcon,
   CheckCircle2Icon,
@@ -24,15 +23,6 @@ export function SpecialistDashboard() {
     const inTreatment = referrals.filter((r) => r.status === 'In Treatment').length;
     const completed = referrals.filter((r) => r.status === 'Completed').length;
     return { incoming, emergency, inTreatment, completed };
-  }, [referrals]);
-
-  const riskData = useMemo(() => {
-    const levels = ['High', 'Medium', 'Low'];
-    return levels.map((name) => ({
-      name,
-      value: referrals.filter((r) => r.risk.level === name).length,
-      fill: name === 'High' ? '#e11d48' : name === 'Medium' ? '#f59e0b' : '#10b981'
-    }));
   }, [referrals]);
 
   const queue = useMemo(
@@ -132,47 +122,27 @@ export function SpecialistDashboard() {
         <StatCard index={3} label={t('stat.completed_handoffs', language)} value={stats.completed} icon={<CheckCircle2Icon className="h-5 w-5" />} accent="emerald" delta="+9%" />
       </div>
 
-      <div className="grid gap-4 xl:grid-cols-3">
-        <GlassCard className="p-5">
-          <SectionTitle title="AI risk distribution" subtitle="Across all referrals routed to this hospital" />
-          <div className="mt-5 h-56 w-full">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={riskData} margin={{ top: 4, right: 8, left: -22, bottom: 0 }}>
-                <XAxis dataKey="name" stroke="#6b829f" fontSize={12} tickLine={false} axisLine={false} />
-                <YAxis stroke="#6b829f" fontSize={12} tickLine={false} axisLine={false} allowDecimals={false} />
-                <Tooltip contentStyle={{ borderRadius: 12, border: '1px solid #d9ebff', fontSize: 12 }} />
-                <Bar dataKey="value" radius={[8, 8, 0, 0]} barSize={38}>
-                  {riskData.map((entry) => (
-                    <Cell key={entry.name} fill={entry.fill} />
-                  ))}
-                </Bar>
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </GlassCard>
+      <div className="space-y-4">
+        <SectionTitle
+          title="Priority Queue"
+          subtitle="Sorted by AI risk score — highest first"
+          action={
+            <Link to="/specialist/queue" className="text-sm font-semibold text-brand-600 hover:text-brand-700">
+              View queue →
+            </Link>
+          }
+        />
 
-        <div className="space-y-3 xl:col-span-2">
-          <SectionTitle
-            title="Priority queue"
-            subtitle="Sorted by AI risk score — highest first"
-            action={
-              <Link to="/specialist/queue" className="text-sm font-semibold text-brand-600 hover:text-brand-700">
-                View queue →
-              </Link>
-            }
-          />
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            {queue.map((referral, index) => (
-              <ReferralCard
-                key={referral.id}
-                referral={referral}
-                patient={getPatient(referral.patientId)}
-                to={`/specialist/referral/${referral.token}`}
-                index={index}
-              />
-            ))}
-          </div>
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          {queue.map((referral, index) => (
+            <ReferralCard
+              key={referral.id}
+              referral={referral}
+              patient={getPatient(referral.patientId)}
+              to={`/specialist/referral/${referral.token}`}
+              index={index}
+            />
+          ))}
         </div>
       </div>
 
