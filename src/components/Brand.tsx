@@ -32,7 +32,7 @@ export function Logo({
             isLarge ? 'text-sm sm:text-base' : 'text-xs sm:text-sm',
             tone === 'dark' ? 'text-amber-300' : 'text-[#b91c1c]'
           )}>
-          आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ
+          ಆರೋಗ್ಯ-ವಾಹಿನಿ • आरोग्य-वाहिनी
         </span>
         <span
           className={twMerge(

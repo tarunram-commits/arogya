@@ -282,7 +282,7 @@ export function LandingPage() {
 
                 <div className="mt-6 text-center">
                   <h3 className="font-indic text-lg sm:text-xl font-black text-amber-400 tracking-wide leading-snug drop-shadow-md">
-                    आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ
+                    ಆರೋಗ್ಯ-ವಾಹಿನಿ • आरोग्य-वाहिनी
                   </h3>
                   <p className="font-display text-xl font-black text-white mt-1">
                     Bharat Rural Healthcare Network

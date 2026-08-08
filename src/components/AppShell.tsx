@@ -175,7 +175,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="hidden sm:flex flex-1 justify-center max-w-xl">
             <div className="flex flex-col items-center justify-center text-center rounded-2xl bg-gradient-to-r from-amber-500/10 via-white to-emerald-500/10 border-2 border-brand-300/80 px-6 py-2 shadow-md backdrop-blur-xl">
               <h2 className="font-indic text-sm sm:text-base font-extrabold text-[#c2410c] tracking-tight leading-none">
-                आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ
+                ಆರೋಗ್ಯ-ವಾಹಿನಿ • आरोग्य-वाहिनी
               </h2>
               <h1 className="font-display text-sm sm:text-base font-black text-[#854d0e] tracking-tight leading-none mt-1">
                 Arogya-Vahini · Rural Referral Network
