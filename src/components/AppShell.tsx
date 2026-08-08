@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import {
   ActivityIcon,
   BellIcon,
+  GlobeIcon,
   LayoutDashboardIcon,
   LogOutIcon,
   MenuIcon,
@@ -20,6 +21,7 @@ import { twMerge } from 'tailwind-merge';
 import { useApp } from '../contexts/AppContext';
 import { Logo } from './Brand';
 import { formatDoctorName, initials } from '../utils/format';
+import type { Language } from '../types';
 
 interface NavItem {
   to: string;
@@ -45,11 +47,13 @@ const SPECIALIST_NAV: NavItem[] = [
 ];
 
 
-export function AppShell({ children }: {children: React.ReactNode;}) {
+export function AppShell({ children }: { children: React.ReactNode }) {
   const { user, logout } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [appLanguage, setAppLanguage] = useState<Language>('en');
   const nav = user?.role === 'specialist' ? SPECIALIST_NAV : PHC_NAV;
 
   const handleLogout = () => {
@@ -141,22 +145,39 @@ export function AppShell({ children }: {children: React.ReactNode;}) {
 
       {/* Main */}
       <div className="flex min-h-screen w-full flex-col lg:pl-[268px]">
-        <header className="glass sticky top-0 z-20 flex items-center gap-3 border-b border-white/60 px-4 py-3 sm:px-6">
+        <header className="glass sticky top-0 z-20 flex items-center justify-between gap-3 border-b border-white/60 px-4 py-2.5 sm:px-6">
           <button
             type="button"
             onClick={() => setOpen(true)}
             className="rounded-xl p-2 text-ink-soft hover:bg-brand-500/10 lg:hidden"
             aria-label="Open navigation">
-            
             <MenuIcon className="h-5 w-5" />
           </button>
 
-          <div className="hidden sm:flex flex-1 justify-center">
-            <div className="flex flex-col items-center justify-center text-center rounded-2xl bg-white/95 border border-red-200/90 px-6 py-2 shadow-sm backdrop-blur-md">
-              <h2 className="font-indic text-xs sm:text-sm font-extrabold text-[#c2410c] tracking-tight leading-tight">
+          {/* Left Side: Search Bar input (left of Arogya-Vahini box) */}
+          <div className="hidden md:flex items-center relative min-w-[200px] lg:min-w-[240px]">
+            <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
+            <input
+              type="text"
+              placeholder="Search patient, ID or mobile..."
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && searchQuery.trim()) {
+                  navigate(`/phc/search?q=${encodeURIComponent(searchQuery.trim())}`);
+                }
+              }}
+              className="w-full rounded-xl border border-brand-200/80 bg-white/90 pl-9 pr-3 py-1.5 text-xs font-medium text-ink placeholder-ink-muted shadow-sm backdrop-blur-md transition-all focus:border-brand-500 focus:outline-none focus:ring-2 focus:ring-brand-500/30"
+            />
+          </div>
+
+          {/* Center: Arogya-Vahini Box */}
+          <div className="hidden sm:flex flex-1 justify-center max-w-md">
+            <div className="flex flex-col items-center justify-center text-center rounded-2xl bg-white/95 border border-red-200/90 px-5 py-1.5 shadow-sm backdrop-blur-md">
+              <h2 className="font-indic text-xs font-extrabold text-[#c2410c] tracking-tight leading-tight">
                 आरोग्य-वाहिनी • ಆರೋಗ್ಯ-ವಾಹಿನಿ (ಗ್ರಾಮೀಣ ರಫರಲ್)
               </h2>
-              <h1 className="font-display text-xs sm:text-sm font-extrabold text-[#991b1b] tracking-tight leading-tight mt-0.5">
+              <h1 className="font-display text-xs font-extrabold text-[#991b1b] tracking-tight leading-tight mt-0.5">
                 Arogya-Vahini · Rural Referral Network
               </h1>
             </div>
@@ -164,18 +185,32 @@ export function AppShell({ children }: {children: React.ReactNode;}) {
 
           <p className="truncate font-display text-sm font-bold text-ink sm:hidden">Arogya-Vahini</p>
 
+          {/* Right Side: Multi-Language Selector Dropdown, Notifications, Profile */}
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
+            <div className="relative">
+              <select
+                value={appLanguage}
+                onChange={(e) => setAppLanguage(e.target.value as Language)}
+                className="appearance-none cursor-pointer rounded-xl border border-brand-200/80 bg-white/90 pl-8 pr-7 py-1.5 text-xs font-bold text-ink shadow-sm backdrop-blur-md hover:bg-brand-50 focus:border-brand-500 focus:outline-none">
+                <option value="en">English (EN)</option>
+                <option value="hi">हिंदी (HI)</option>
+                <option value="kn">ಕನ್ನಡ (KN)</option>
+                <option value="mr">मराठी (MR)</option>
+              </select>
+              <GlobeIcon className="pointer-events-none absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-brand-600" />
+            </div>
+
             <button
               type="button"
               className="relative rounded-xl p-2 text-ink-soft transition-colors hover:bg-brand-500/10"
               aria-label="Notifications">
-              
               <BellIcon className="h-5 w-5" />
               <span className="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-rose-500 ring-2 ring-white" />
             </button>
+
             <Link
               to={user?.role === 'specialist' ? '/specialist/settings' : '/phc/settings'}
-              className="flex items-center gap-2.5 rounded-xl bg-white/70 px-2.5 py-1.5 ring-1 ring-brand-100 transition-colors hover:bg-brand-50 hover:ring-brand-300">
+              className="flex items-center gap-2.5 rounded-xl bg-white/80 px-2.5 py-1.5 ring-1 ring-brand-200/80 shadow-sm transition-colors hover:bg-brand-50">
               <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-brand-600 text-xs font-bold text-white shadow-sm">
                 {initials(user?.name ?? 'AV')}
               </span>
@@ -184,12 +219,12 @@ export function AppShell({ children }: {children: React.ReactNode;}) {
                 <span className="block text-[11px] text-ink-muted">{user?.designation}</span>
               </span>
             </Link>
+
             <button
               type="button"
               onClick={handleLogout}
               className="rounded-xl p-2 text-ink-soft transition-colors hover:bg-rose-50 hover:text-rose-600"
               aria-label="Log out">
-              
               <LogOutIcon className="h-5 w-5" />
             </button>
           </div>
