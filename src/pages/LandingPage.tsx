@@ -233,7 +233,7 @@ export function LandingPage() {
                 type="button"
                 onClick={scrollToLogin}
                 animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
+                transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut' }}
                 className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-7 py-4 font-display text-base font-extrabold text-white shadow-xl shadow-emerald-500/30 transition-all hover:scale-105 active:scale-95 hover:shadow-emerald-500/50">
                 Get Started
                 <ArrowRightIcon className="h-5 w-5" />
@@ -243,7 +243,7 @@ export function LandingPage() {
                 type="button"
                 onClick={scrollToFeatures}
                 animate={{ y: [0, -8, 0] }}
-                transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                transition={{ duration: 2.0, repeat: Infinity, ease: 'easeInOut', delay: 0.35 }}
                 className="inline-flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/90 px-7 py-4 font-display text-base font-bold text-slate-200 shadow-xl backdrop-blur-md transition-all hover:bg-slate-800 hover:text-white active:scale-95 hover:border-slate-500">
                 Explore Features
                 <ChevronRightIcon className="h-5 w-5" />
@@ -251,16 +251,20 @@ export function LandingPage() {
             </motion.div>
           </div>
 
-          {/* Right Column: Professional Healthcare Graphic Illustration */}
+          {/* Right Column: Floating Entire Card Box */}
           <motion.div
             initial={{ opacity: 0, scale: 0.92 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.2 }}
+            animate={{ opacity: 1, scale: 1, y: [0, -14, 0] }}
+            transition={{
+              opacity: { duration: 0.7, delay: 0.2 },
+              scale: { duration: 0.7, delay: 0.2 },
+              y: { duration: 2.2, repeat: Infinity, ease: 'easeInOut' }
+            }}
             className="relative lg:col-span-5 flex justify-center">
             
-            <div className="relative w-full max-w-md rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950/90 p-6 shadow-2xl shadow-slate-950 backdrop-blur-2xl overflow-hidden">
+            <div className="relative w-full max-w-md rounded-3xl border border-emerald-500/30 bg-gradient-to-b from-slate-900/95 via-slate-900/90 to-slate-950/95 p-6 shadow-[0_20px_60px_-15px_rgba(16,185,129,0.25)] backdrop-blur-2xl overflow-hidden hover:border-emerald-400/50 transition-colors">
               <div className="absolute top-0 right-0 p-4">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/60 px-3 py-1 text-[11px] font-bold text-emerald-300">
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/70 px-3 py-1 text-[11px] font-bold text-emerald-300 shadow-sm">
                   <SparklesIcon className="h-3.5 w-3.5 text-emerald-400" />
                   AI Triage Active
                 </span>
@@ -269,9 +273,9 @@ export function LandingPage() {
               {/* Floating India Map & Healthcare Network Hub Cutout */}
               <div className="relative flex flex-col items-center justify-center pt-4 pb-2">
                 <motion.div
-                  animate={{ y: [0, -12, 0] }}
-                  transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
-                  className="relative h-48 w-48 rounded-full border-2 border-emerald-400/50 bg-emerald-950/30 p-2.5 flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.35)]">
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{ duration: 2.2, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative h-48 w-48 rounded-full border-2 border-emerald-400/60 bg-emerald-950/40 p-2.5 flex items-center justify-center shadow-[0_0_45px_rgba(16,185,129,0.45)]">
                   <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-indigo-500 opacity-40 blur-lg animate-pulse" />
                   <img src="/arogya_logo.png" alt="Bharat Healthcare Network" className="relative h-full w-full object-contain rounded-full drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]" />
                 </motion.div>
