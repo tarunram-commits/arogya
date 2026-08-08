@@ -9,7 +9,7 @@
 /* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
 
 :root {
-  --bg-canvas: #f2f7fd;
+  --bg-canvas: #f0fdf4;
 }
 html,
 body,
@@ -19,35 +19,35 @@ body,
 }
 body {
   background-color: var(--bg-canvas);
-  color: #0b1b33;
+  color: #042f2e;
   font-family: Inter, system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 .app-canvas {
   background-color: var(--bg-canvas);
-  background-image: radial-gradient(circle at 12% 8%, rgba(47, 128, 237, 0.16), transparent 42%),
-    radial-gradient(circle at 88% 4%, rgba(16, 185, 129, 0.14), transparent 40%),
-    radial-gradient(circle at 60% 92%, rgba(47, 128, 237, 0.1), transparent 45%);
+  background-image: radial-gradient(circle at 12% 8%, rgba(16, 185, 129, 0.18), transparent 42%),
+    radial-gradient(circle at 88% 4%, rgba(5, 150, 105, 0.16), transparent 40%),
+    radial-gradient(circle at 60% 92%, rgba(16, 185, 129, 0.12), transparent 45%);
 }
 .glass {
-  background-color: rgba(255, 255, 255, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.85);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: 1px solid rgba(209, 250, 229, 0.9);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
 .glass-dark {
-  background-color: rgba(11, 27, 51, 0.55);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  background-color: rgba(6, 78, 59, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.15);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
 }
 .grid-lines {
-  background-image: linear-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+  background-image: linear-gradient(rgba(16, 185, 129, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(16, 185, 129, 0.08) 1px, transparent 1px);
   background-size: 44px 44px;
 }
 *:focus-visible {
-  outline: 2px solid #2f80ed;
+  outline: 2px solid #10b981;
   outline-offset: 2px;
 }
 ::-webkit-scrollbar {
@@ -55,7 +55,7 @@ body {
   height: 10px;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(47, 128, 237, 0.28);
+  background: rgba(16, 185, 129, 0.35);
   border-radius: 999px;
   border: 3px solid transparent;
   background-clip: content-box;
