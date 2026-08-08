@@ -122,7 +122,25 @@ export function SpecialistDashboard() {
         <StatCard index={3} label={t('stat.completed_handoffs', language)} value={stats.completed} icon={<CheckCircle2Icon className="h-5 w-5" />} accent="emerald" delta="+9%" />
       </div>
 
-      <div className="space-y-4">
+      <GlassCard className="flex flex-wrap items-center justify-between gap-4 p-5">
+        <div className="flex items-start gap-3">
+          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600 text-white">
+            <QrCodeIcon className="h-5 w-5" />
+          </span>
+          <div>
+            <h3 className="font-display text-base font-bold text-ink">Patient at the desk?</h3>
+            <p className="mt-1 text-sm text-ink-muted">
+              Scan the QR on their referral slip to pull the entire health vault instantly.
+            </p>
+          </div>
+        </div>
+        <Link to="/specialist/scan">
+          <Button variant="emerald">Open scanner</Button>
+        </Link>
+      </GlassCard>
+
+      {/* Priority Queue Positioned Below Dashboard */}
+      <div className="space-y-4 pt-2">
         <SectionTitle
           title="Priority Queue"
           subtitle="Sorted by AI risk score — highest first"
@@ -145,23 +163,6 @@ export function SpecialistDashboard() {
           ))}
         </div>
       </div>
-
-      <GlassCard className="flex flex-wrap items-center justify-between gap-4 p-5">
-        <div className="flex items-start gap-3">
-          <span className="flex h-11 w-11 items-center justify-center rounded-2xl bg-brand-600 text-white">
-            <QrCodeIcon className="h-5 w-5" />
-          </span>
-          <div>
-            <h3 className="font-display text-base font-bold text-ink">Patient at the desk?</h3>
-            <p className="mt-1 text-sm text-ink-muted">
-              Scan the QR on their referral slip to pull the entire health vault instantly.
-            </p>
-          </div>
-        </div>
-        <Link to="/specialist/scan">
-          <Button variant="emerald">Open scanner</Button>
-        </Link>
-      </GlassCard>
     </div>
   );
 }
