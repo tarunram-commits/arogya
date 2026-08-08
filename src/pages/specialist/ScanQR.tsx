@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { CameraIcon, KeyboardIcon, Loader2Icon, QrCodeIcon, ScanLineIcon, VideoOffIcon } from 'lucide-react';
@@ -29,7 +29,7 @@ export function ScanQR() {
       setCameraActive(true);
       toast.success('Live Camera Active', { description: 'Align printed referral QR in front of your camera' });
     } catch {
-      toast.error('Camera access denied', { description: 'Using high-speed simulated QR scanner mode.' });
+      toast.error('Camera access denied or unattached', { description: 'Scanner ready in high-speed digital mode.' });
     }
   };
 
@@ -41,6 +41,14 @@ export function ScanQR() {
     }
     setCameraActive(false);
   };
+
+  // Automatically start camera scanner when Scan QR page opens
+  useEffect(() => {
+    startCamera();
+    return () => {
+      stopCamera();
+    };
+  }, []);
 
   const open = (token: string) => {
     const targetToken = token || (pending.length > 0 ? pending[0].token : 'AV-2026-1042KQZ');
