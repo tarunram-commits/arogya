@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import jsQR from 'jsqr';
-import { CameraIcon, FileUpIcon, KeyboardIcon, Loader2Icon, QrCodeIcon, ScanLineIcon, VideoOffIcon } from 'lucide-react';
+import { CameraIcon, FileUpIcon, FlipHorizontalIcon, KeyboardIcon, Loader2Icon, QrCodeIcon, ScanLineIcon, VideoOffIcon } from 'lucide-react';
 import { toast } from 'sonner';
 import { twMerge } from 'tailwind-merge';
 import { useApp } from '../../contexts/AppContext';
@@ -16,6 +16,7 @@ export function ScanQR() {
   const [manual, setManual] = useState('');
   const [scanning, setScanning] = useState<string | null>(null);
   const [cameraActive, setCameraActive] = useState(false);
+  const [isMirrored, setIsMirrored] = useState(true);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -186,6 +187,15 @@ export function ScanQR() {
             Upload QR Photo
           </Button>
 
+          <Button
+            type="button"
+            variant="outline"
+            onClick={() => setIsMirrored(!isMirrored)}
+            className="border-emerald-300 text-emerald-800 hover:bg-emerald-50 font-bold">
+            <FlipHorizontalIcon className="h-4 w-4 mr-2" />
+            {isMirrored ? 'Mirrored View' : 'Normal View'}
+          </Button>
+
           {!cameraActive ? (
             <Button type="button" onClick={startCamera} className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold shadow-md">
               <CameraIcon className="h-4 w-4 mr-2" />
@@ -214,12 +224,16 @@ export function ScanQR() {
           <div
             onClick={() => open(manual || (pending[0]?.token ?? ''))}
             className="relative mt-5 aspect-[4/3] w-full cursor-pointer overflow-hidden rounded-2xl bg-ink group shadow-xl">
-            {/* Live Camera Video Feed */}
+            {/* Live Camera Video Feed (Mirrored view) */}
             <video
               ref={videoRef}
               playsInline
               muted
-              className={twMerge('absolute inset-0 h-full w-full object-cover', !cameraActive && 'hidden')}
+              className={twMerge(
+                'absolute inset-0 h-full w-full object-cover transition-transform duration-300',
+                isMirrored && '-scale-x-100',
+                !cameraActive && 'hidden'
+              )}
             />
 
             {/* Grid Overlay */}
