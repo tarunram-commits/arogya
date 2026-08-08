@@ -1,4 +1,5 @@
 import React from 'react';
+import { motion } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 
 export function Logo({
@@ -14,14 +15,16 @@ export function Logo({
 
   return (
     <span className={twMerge('flex items-center gap-3.5', className)}>
-      <span
+      <motion.span
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 3.8, repeat: Infinity, ease: 'easeInOut' }}
         className={twMerge(
-          'relative flex shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-1 shadow-md ring-2',
-          tone === 'dark' ? 'ring-brand-400/40' : 'ring-brand-500/20',
+          'relative flex shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-white p-1 shadow-lg ring-2 transition-all hover:scale-105',
+          tone === 'dark' ? 'ring-emerald-400/50 shadow-emerald-500/20' : 'ring-emerald-500/30 shadow-emerald-500/10',
           isLarge ? 'h-14 w-14 sm:h-16 sm:w-16' : 'h-11 w-11'
         )}>
-        <img src="/arogya_logo.png" alt="Arogya-Vahini Emblem" className="h-full w-full object-contain rounded-xl" />
-      </span>
+        <img src="/arogya_logo.png" alt="Arogya-Vahini Emblem" className="h-full w-full object-contain rounded-xl drop-shadow-sm" />
+      </motion.span>
       <span className="leading-tight">
         <span
           className={twMerge(
@@ -35,15 +38,15 @@ export function Logo({
           className={twMerge(
             'block font-display font-extrabold tracking-tight',
             isLarge ? 'text-2xl sm:text-3xl text-emerald-400 font-black' : 'text-lg sm:text-xl',
-            tone === 'dark' ? (isLarge ? 'text-emerald-400' : 'text-white') : 'text-brand-900'
+            tone === 'dark' ? (isLarge ? 'text-emerald-400' : 'text-white') : 'text-emerald-950'
           )}>
           Arogya-Vahini
         </span>
         <span
           className={twMerge(
             'block font-bold uppercase tracking-[0.14em]',
-            isLarge ? 'text-xs text-brand-300' : 'text-[10px] text-brand-600',
-            tone === 'dark' ? 'text-brand-200' : 'text-brand-600'
+            isLarge ? 'text-xs text-emerald-300' : 'text-[10px] text-emerald-600',
+            tone === 'dark' ? 'text-emerald-200' : 'text-emerald-700'
           )}>
           Rural Referral Network
         </span>

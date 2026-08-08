@@ -229,21 +229,25 @@ export function LandingPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.65, delay: 0.3 }}
               className="flex flex-wrap gap-4 pt-4">
-              <button
+              <motion.button
                 type="button"
                 onClick={scrollToLogin}
-                className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand-600 via-indigo-600 to-emerald-600 px-7 py-4 font-display text-base font-extrabold text-white shadow-xl shadow-brand-500/25 transition-all hover:scale-105 active:scale-95">
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut' }}
+                className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-600 px-7 py-4 font-display text-base font-extrabold text-white shadow-xl shadow-emerald-500/30 transition-all hover:scale-105 active:scale-95 hover:shadow-emerald-500/50">
                 Get Started
                 <ArrowRightIcon className="h-5 w-5" />
-              </button>
+              </motion.button>
 
-              <button
+              <motion.button
                 type="button"
                 onClick={scrollToFeatures}
-                className="inline-flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/80 px-7 py-4 font-display text-base font-bold text-slate-200 shadow-lg backdrop-blur-md transition-all hover:bg-slate-800 hover:text-white active:scale-95">
+                animate={{ y: [0, -8, 0] }}
+                transition={{ duration: 3.6, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}
+                className="inline-flex items-center gap-2 rounded-2xl border border-slate-700 bg-slate-900/90 px-7 py-4 font-display text-base font-bold text-slate-200 shadow-xl backdrop-blur-md transition-all hover:bg-slate-800 hover:text-white active:scale-95 hover:border-slate-500">
                 Explore Features
                 <ChevronRightIcon className="h-5 w-5" />
-              </button>
+              </motion.button>
             </motion.div>
           </div>
 
@@ -256,17 +260,21 @@ export function LandingPage() {
             
             <div className="relative w-full max-w-md rounded-3xl border border-slate-800 bg-gradient-to-b from-slate-900/90 to-slate-950/90 p-6 shadow-2xl shadow-slate-950 backdrop-blur-2xl overflow-hidden">
               <div className="absolute top-0 right-0 p-4">
-                <span className="inline-flex items-center gap-1.5 rounded-full border border-brand-500/40 bg-brand-950/60 px-3 py-1 text-[11px] font-bold text-brand-300">
-                  <SparklesIcon className="h-3.5 w-3.5 text-brand-400" />
+                <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-500/40 bg-emerald-950/60 px-3 py-1 text-[11px] font-bold text-emerald-300">
+                  <SparklesIcon className="h-3.5 w-3.5 text-emerald-400" />
                   AI Triage Active
                 </span>
               </div>
 
-              {/* India Map & Healthcare Network Hub Cutout */}
+              {/* Floating India Map & Healthcare Network Hub Cutout */}
               <div className="relative flex flex-col items-center justify-center pt-4 pb-2">
-                <div className="relative h-44 w-44 rounded-full border-2 border-emerald-500/30 bg-emerald-950/20 p-2 flex items-center justify-center shadow-inner">
-                  <img src="/arogya_logo.png" alt="Bharat Healthcare Network" className="h-full w-full object-contain rounded-full" />
-                </div>
+                <motion.div
+                  animate={{ y: [0, -12, 0] }}
+                  transition={{ duration: 4.5, repeat: Infinity, ease: 'easeInOut' }}
+                  className="relative h-48 w-48 rounded-full border-2 border-emerald-400/50 bg-emerald-950/30 p-2.5 flex items-center justify-center shadow-[0_0_40px_rgba(16,185,129,0.35)]">
+                  <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-emerald-500 via-teal-400 to-indigo-500 opacity-40 blur-lg animate-pulse" />
+                  <img src="/arogya_logo.png" alt="Bharat Healthcare Network" className="relative h-full w-full object-contain rounded-full drop-shadow-[0_12px_24px_rgba(0,0,0,0.6)]" />
+                </motion.div>
 
                 <div className="mt-6 text-center">
                   <h3 className="font-indic text-sm font-extrabold text-amber-400">
