@@ -521,6 +521,16 @@ export function LandingPage() {
 
           {/* Login / Registration Card Container */}
           <div className="mt-8 mx-auto max-w-xl rounded-3xl border border-slate-800 bg-slate-950/90 p-7 sm:p-10 shadow-2xl backdrop-blur-2xl">
+            {/* Hey Doctor Greeting Header */}
+            <div className="mb-6 text-center">
+              <h3 className="font-display text-2xl sm:text-3xl font-black text-white flex items-center justify-center gap-2">
+                Hey Doctor! 👋🩺
+              </h3>
+              <p className="mt-1 text-xs text-slate-400 font-medium">
+                Enter your credentials below to access your medical console.
+              </p>
+            </div>
+
             {/* Segmented Auth Tab (Sign In vs New Sign Up) */}
             <div className="flex rounded-2xl bg-slate-900 p-1.5 ring-1 ring-slate-800 text-xs font-semibold">
               <button
