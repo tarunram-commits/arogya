@@ -23,6 +23,8 @@ import {
 
 interface AppState {
   user: DoctorUser | null;
+  language: Language;
+  setLanguage: (lang: Language) => void;
   patients: Patient[];
   referrals: Referral[];
   reports: VaultReport[];
@@ -70,6 +72,7 @@ const mapSupabaseUserToDoctorUser = (authUser: any): DoctorUser => {
 
 export function AppProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<DoctorUser | null>(null);
+  const [language, setLanguage] = useState<Language>('en');
   const [patients, setPatients] = useState<Patient[]>(SEED_PATIENTS);
   const [referrals, setReferrals] = useState<Referral[]>(SEED_REFERRALS);
   const [reports, setReports] = useState<VaultReport[]>(SEED_REPORTS);
@@ -441,6 +444,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const value = useMemo<AppState>(
     () => ({
       user,
+      language,
+      setLanguage,
       patients,
       referrals,
       reports,
@@ -479,7 +484,7 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
         );
       }
     }),
-    [user, patients, referrals, reports, isOnline, login, loginWithSupabase, signUpWithSupabase, logout, updateUser, addPatient, deletePatient, addReferral, addReport, addNote, setStatus, setPdfLanguage]
+    [user, language, setLanguage, patients, referrals, reports, isOnline, login, loginWithSupabase, signUpWithSupabase, logout, updateUser, addPatient, deletePatient, addReferral, addReport, addNote, setStatus, setPdfLanguage]
   );
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

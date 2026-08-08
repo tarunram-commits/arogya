@@ -28,6 +28,7 @@ import { StatCard } from '../../components/StatCard';
 import { ReferralCard } from '../../components/ReferralCard';
 import { Button, GlassCard, SectionTitle } from '../../components/ui/Primitives';
 import { formatDoctorName } from '../../utils/format';
+import { t } from '../../utils/i18n';
 
 const PRIORITY_COLORS: Record<string, string> = {
   Emergency: '#e11d48',
@@ -36,7 +37,7 @@ const PRIORITY_COLORS: Record<string, string> = {
 };
 
 export function PhcDashboard() {
-  const { user, patients, referrals, getPatient } = useApp();
+  const { user, patients, referrals, getPatient, language } = useApp();
 
   const stats = useMemo(() => {
     const emergency = referrals.filter((r) => r.priority === 'Emergency').length;
@@ -92,18 +93,18 @@ export function PhcDashboard() {
             </div>
 
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl lg:text-5xl leading-[1.15]">
-              Bharat's{' '}
+              {t('banner.slogan_prefix', language)}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-indigo-600 to-violet-600">
-                Health, Our Priority.
+                {t('banner.slogan_highlight', language)}
               </span>
             </h1>
 
             <p className="font-display text-base font-bold text-slate-700">
-              Welcome, {formatDoctorName(user?.name)}
+              {t('banner.welcome', language)}, {formatDoctorName(user?.name)}
             </p>
 
             <p className="text-sm leading-relaxed text-ink-muted max-w-xl">
-              Empowering primary care with AI-driven triage, instant QR referral slips, and scannable ABDM-aligned health vaults across rural India.
+              {t('banner.phc_desc', language)}
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
@@ -112,7 +113,7 @@ export function PhcDashboard() {
                   type="button"
                   className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-600 px-6 py-3.5 font-display text-sm font-bold text-white shadow-lg shadow-brand-500/25 transition-all hover:from-brand-700 hover:to-indigo-700 active:scale-95">
                   <UserPlusIcon className="h-4.5 w-4.5" />
-                  Register Patient
+                  {t('banner.register_patient_btn', language)}
                 </button>
               </Link>
               <Link to="/phc/referral/new">
@@ -120,7 +121,7 @@ export function PhcDashboard() {
                   type="button"
                   className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 px-6 py-3.5 font-display text-sm font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-700 active:scale-95">
                   <FilePlusIcon className="h-4.5 w-4.5" />
-                  Create Referral Slip
+                  {t('banner.create_referral_btn', language)}
                 </button>
               </Link>
             </div>
@@ -137,7 +138,7 @@ export function PhcDashboard() {
 
               {/* Doctor Speech Bubble */}
               <div className="absolute -top-3 -right-6 sm:-right-10 z-20 max-w-[170px] rounded-2xl border border-indigo-100 bg-white/95 p-2.5 text-[11px] font-bold text-indigo-900 shadow-xl backdrop-blur-md">
-                <span>"AI risk triage & instant QR handoffs"</span>
+                <span>{t('bubble.phc_doctor', language)}</span>
               </div>
             </div>
 
@@ -150,18 +151,19 @@ export function PhcDashboard() {
 
               {/* Patient Speech Bubble */}
               <div className="absolute -bottom-4 -left-6 sm:-left-10 z-20 max-w-[160px] rounded-2xl border border-emerald-100 bg-white/95 p-2.5 text-[11px] font-bold text-emerald-900 shadow-xl backdrop-blur-md">
-                <span>"Health vault travels with me"</span>
+                <span>{t('bubble.phc_patient', language)}</span>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+      {/* Quick stats grid */}
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard index={0} label="Total patients" value={stats.patients} icon={<UsersIcon className="h-5 w-5" />} delta="+12%" />
-        <StatCard index={1} label="Total referrals" value={stats.referrals} icon={<ActivityIcon className="h-5 w-5" />} delta="+8%" accent="emerald" />
-        <StatCard index={2} label="Emergency cases" value={stats.emergency} icon={<AlertTriangleIcon className="h-5 w-5" />} delta="+2" accent="rose" />
-        <StatCard index={3} label="Active referrals" value={stats.active} icon={<ArrowRightIcon className="h-5 w-5" />} delta="-3%" trend="down" accent="violet" />
+        <StatCard index={0} label={t('stat.total_patients', language)} value={stats.patients} icon={<UsersIcon className="h-5 w-5" />} delta="+12%" />
+        <StatCard index={1} label={t('stat.total_referrals', language)} value={stats.referrals} icon={<ActivityIcon className="h-5 w-5" />} delta="+8%" accent="emerald" />
+        <StatCard index={2} label={t('stat.emergency_cases', language)} value={stats.emergency} icon={<AlertTriangleIcon className="h-5 w-5" />} delta="+2" accent="rose" />
+        <StatCard index={3} label={t('stat.active_referrals', language)} value={stats.active} icon={<ArrowRightIcon className="h-5 w-5" />} delta="-3%" trend="down" accent="violet" />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">

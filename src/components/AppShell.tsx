@@ -22,38 +22,38 @@ import { useApp } from '../contexts/AppContext';
 import { Logo } from './Brand';
 import { formatDoctorName, initials } from '../utils/format';
 import type { Language } from '../types';
+import { t } from '../utils/i18n';
 
 interface NavItem {
   to: string;
-  label: string;
+  labelKey: string;
+  defaultLabel: string;
   icon: React.ReactNode;
   end?: boolean;
 }
 
 const PHC_NAV: NavItem[] = [
-  { to: '/phc', label: 'Dashboard', icon: <LayoutDashboardIcon className="h-4 w-4" />, end: true },
-  { to: '/phc/search', label: 'Search Patient', icon: <SearchIcon className="h-4 w-4" /> },
-  { to: '/phc/register', label: 'Register Patient', icon: <UserPlusIcon className="h-4 w-4" /> },
-  { to: '/phc/referral/new', label: 'New Referral', icon: <ActivityIcon className="h-4 w-4" /> },
-  { to: '/phc/referrals', label: 'Referral Log', icon: <UsersIcon className="h-4 w-4" /> },
-  { to: '/phc/settings', label: 'Profile Settings', icon: <UserCogIcon className="h-4 w-4" /> }
+  { to: '/phc', labelKey: 'nav.dashboard', defaultLabel: 'Dashboard', icon: <LayoutDashboardIcon className="h-4 w-4" />, end: true },
+  { to: '/phc/search', labelKey: 'nav.search_patient', defaultLabel: 'Search Patient', icon: <SearchIcon className="h-4 w-4" /> },
+  { to: '/phc/register', labelKey: 'nav.register_patient', defaultLabel: 'Register Patient', icon: <UserPlusIcon className="h-4 w-4" /> },
+  { to: '/phc/referral/new', labelKey: 'nav.new_referral', defaultLabel: 'New Referral', icon: <ActivityIcon className="h-4 w-4" /> },
+  { to: '/phc/referrals', labelKey: 'nav.referral_log', defaultLabel: 'Referral Log', icon: <UsersIcon className="h-4 w-4" /> },
+  { to: '/phc/settings', labelKey: 'nav.profile_settings', defaultLabel: 'Profile Settings', icon: <UserCogIcon className="h-4 w-4" /> }
 ];
 
 const SPECIALIST_NAV: NavItem[] = [
-  { to: '/specialist', label: 'Dashboard', icon: <LayoutDashboardIcon className="h-4 w-4" />, end: true },
-  { to: '/specialist/scan', label: 'Scan QR Code', icon: <QrCodeIcon className="h-4 w-4" /> },
-  { to: '/specialist/queue', label: 'Referral Queue', icon: <StethoscopeIcon className="h-4 w-4" /> },
-  { to: '/specialist/settings', label: 'Profile Settings', icon: <UserCogIcon className="h-4 w-4" /> }
+  { to: '/specialist', labelKey: 'nav.dashboard', defaultLabel: 'Dashboard', icon: <LayoutDashboardIcon className="h-4 w-4" />, end: true },
+  { to: '/specialist/scan', labelKey: 'nav.scan_qr', defaultLabel: 'Scan QR Code', icon: <QrCodeIcon className="h-4 w-4" /> },
+  { to: '/specialist/queue', labelKey: 'nav.referral_queue', defaultLabel: 'Referral Queue', icon: <StethoscopeIcon className="h-4 w-4" /> },
+  { to: '/specialist/settings', labelKey: 'nav.profile_settings', defaultLabel: 'Profile Settings', icon: <UserCogIcon className="h-4 w-4" /> }
 ];
 
-
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const { user, logout } = useApp();
+  const { user, logout, language, setLanguage } = useApp();
   const navigate = useNavigate();
   const location = useLocation();
   const [open, setOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const [appLanguage, setAppLanguage] = useState<Language>('en');
   const nav = user?.role === 'specialist' ? SPECIALIST_NAV : PHC_NAV;
 
   const handleLogout = () => {
@@ -116,7 +116,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
               null}
                   {item.icon}
-                  {item.label}
+                  {t(item.labelKey, language)}
                 </>
             }
             </NavLink>
@@ -159,7 +159,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <SearchIcon className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-ink-muted" />
             <input
               type="text"
-              placeholder="Search patient, ID or mobile..."
+              placeholder={t('heading.search_placeholder', language)}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               onKeyDown={(e) => {
@@ -189,8 +189,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className="ml-auto flex items-center gap-2 sm:gap-3">
             <div className="relative">
               <select
-                value={appLanguage}
-                onChange={(e) => setAppLanguage(e.target.value as Language)}
+                value={language}
+                onChange={(e) => setLanguage(e.target.value as Language)}
                 className="appearance-none cursor-pointer rounded-xl border border-brand-200/80 bg-white/90 pl-8 pr-7 py-1.5 text-xs font-bold text-ink shadow-sm backdrop-blur-md hover:bg-brand-50 focus:border-brand-500 focus:outline-none">
                 <option value="en">English (EN)</option>
                 <option value="hi">हिंदी (HI)</option>

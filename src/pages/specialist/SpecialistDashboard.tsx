@@ -13,9 +13,10 @@ import { StatCard } from '../../components/StatCard';
 import { ReferralCard } from '../../components/ReferralCard';
 import { Button, GlassCard, SectionTitle } from '../../components/ui/Primitives';
 import { formatDoctorName } from '../../utils/format';
+import { t } from '../../utils/i18n';
 
 export function SpecialistDashboard() {
-  const { user, referrals, getPatient } = useApp();
+  const { user, referrals, getPatient, language } = useApp();
 
   const stats = useMemo(() => {
     const incoming = referrals.filter((r) => r.status === 'Active').length;
@@ -59,18 +60,18 @@ export function SpecialistDashboard() {
             </div>
 
             <h1 className="font-display text-3xl font-extrabold tracking-tight text-ink sm:text-4xl lg:text-5xl leading-[1.15]">
-              Bharat's{' '}
+              {t('banner.slogan_prefix', language)}{' '}
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-600 via-indigo-600 to-violet-600">
-                Health, Our Priority.
+                {t('banner.slogan_highlight', language)}
               </span>
             </h1>
 
             <p className="font-display text-base font-bold text-slate-700">
-              Welcome, {formatDoctorName(user?.name)}
+              {t('banner.welcome', language)}, {formatDoctorName(user?.name)}
             </p>
 
             <p className="text-sm leading-relaxed text-ink-muted max-w-xl">
-              Review incoming high-priority referrals, scan patient referral QR tokens at your desk, and access encrypted ABDM health vaults instantly.
+              {t('banner.specialist_desc', language)}
             </p>
 
             <div className="flex flex-wrap gap-3 pt-2">
@@ -79,7 +80,7 @@ export function SpecialistDashboard() {
                   type="button"
                   className="inline-flex items-center gap-2 rounded-2xl bg-gradient-to-r from-brand-600 to-indigo-600 px-6 py-3.5 font-display text-sm font-bold text-white shadow-lg shadow-brand-500/25 transition-all hover:from-brand-700 hover:to-indigo-700 active:scale-95">
                   <QrCodeIcon className="h-4.5 w-4.5" />
-                  Scan Referral QR
+                  {t('banner.scan_qr_btn', language)}
                 </button>
               </Link>
               <Link to="/specialist/queue">
@@ -87,7 +88,7 @@ export function SpecialistDashboard() {
                   type="button"
                   className="inline-flex items-center gap-2 rounded-2xl bg-emerald-600 px-6 py-3.5 font-display text-sm font-bold text-white shadow-lg shadow-emerald-500/25 transition-all hover:bg-emerald-700 active:scale-95">
                   <StethoscopeIcon className="h-4.5 w-4.5" />
-                  Referral Queue
+                  {t('banner.queue_btn', language)}
                 </button>
               </Link>
             </div>
@@ -104,7 +105,7 @@ export function SpecialistDashboard() {
 
               {/* Doctor Speech Bubble */}
               <div className="absolute -top-3 -right-6 sm:-right-10 z-20 max-w-[170px] rounded-2xl border border-indigo-100 bg-white/95 p-2.5 text-[11px] font-bold text-indigo-900 shadow-xl backdrop-blur-md">
-                <span>"Scan QR for instant patient vault access"</span>
+                <span>{t('bubble.specialist_doctor', language)}</span>
               </div>
             </div>
 
@@ -117,7 +118,7 @@ export function SpecialistDashboard() {
 
               {/* Patient Speech Bubble */}
               <div className="absolute -bottom-4 -left-6 sm:-left-10 z-20 max-w-[160px] rounded-2xl border border-emerald-100 bg-white/95 p-2.5 text-[11px] font-bold text-emerald-900 shadow-xl backdrop-blur-md">
-                <span>"Seamless referral handoffs"</span>
+                <span>{t('bubble.specialist_patient', language)}</span>
               </div>
             </div>
           </div>
@@ -125,10 +126,10 @@ export function SpecialistDashboard() {
       </div>
 
       <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-        <StatCard index={0} label="Incoming referrals" value={stats.incoming} icon={<InboxIcon className="h-5 w-5" />} delta="+4" />
-        <StatCard index={1} label="Emergency waiting" value={stats.emergency} icon={<AlertTriangleIcon className="h-5 w-5" />} accent="rose" delta="+1" />
-        <StatCard index={2} label="Under treatment" value={stats.inTreatment} icon={<StethoscopeIcon className="h-5 w-5" />} accent="violet" />
-        <StatCard index={3} label="Completed handoffs" value={stats.completed} icon={<CheckCircle2Icon className="h-5 w-5" />} accent="emerald" delta="+9%" />
+        <StatCard index={0} label={t('stat.incoming_referrals', language)} value={stats.incoming} icon={<InboxIcon className="h-5 w-5" />} delta="+4" />
+        <StatCard index={1} label={t('stat.emergency_waiting', language)} value={stats.emergency} icon={<AlertTriangleIcon className="h-5 w-5" />} accent="rose" delta="+1" />
+        <StatCard index={2} label={t('stat.under_treatment', language)} value={stats.inTreatment} icon={<StethoscopeIcon className="h-5 w-5" />} accent="violet" />
+        <StatCard index={3} label={t('stat.completed_handoffs', language)} value={stats.completed} icon={<CheckCircle2Icon className="h-5 w-5" />} accent="emerald" delta="+9%" />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-3">
